@@ -1,0 +1,99 @@
+<?php
+
+/*
+|--------------------------------------------------------------------------
+| Admin Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register Admin routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| is assigned the "web", "auth" and "admin" middleware groups. Enjoy building your Admin!
+|
+*/
+
+/**
+ * admin url
+ */
+Route::get('/', ['uses' => 'AdminController@index', 'as' => 'admin.index']);
+Route::get('/settings', ['uses' => 'AdminController@settings', 'as' => 'admin.settings']);
+Route::post('/settings', ['uses' => 'AdminController@saveSettings', 'as' => 'admin.save-settings']);
+Route::post('/upload/image', ['uses' => 'ImageController@uploadImage', 'as' => 'upload.image']);
+Route::delete('/delete/file', ['uses' => 'FileController@deleteFile', 'as' => 'delete.file']);
+Route::post('/upload/file', ['uses' => 'FileController@uploadFile', 'as' => 'upload.file']);
+
+
+/**
+ * admin uri
+ */
+Route::get('/posts', ['uses' => 'AdminController@posts', 'as' => 'admin.posts']);
+Route::get('/pictures', ['uses' => 'AdminController@pictures', 'as' => 'admin.pictures']);
+Route::get('/comments', ['uses' => 'AdminController@comments', 'as' => 'admin.comments']);
+Route::get('/tags', ['uses' => 'AdminController@tags', 'as' => 'admin.tags']);
+Route::get('/users', ['uses' => 'AdminController@users', 'as' => 'admin.users']);
+Route::get('/pages', ['uses' => 'AdminController@pages', 'as' => 'admin.pages']);
+Route::get('/categories', ['uses' => 'AdminController@categories', 'as' => 'admin.categories']);
+Route::get('/images', ['uses' => 'ImageController@images', 'as' => 'admin.images']);
+Route::get('/images-list', ['uses' => 'ImageController@images_list', 'as' => 'admin.images-list']);
+Route::get('/files', ['uses' => 'FileController@files', 'as' => 'admin.files']);
+Route::get('/ips', ['uses' => 'AdminController@ips', 'as' => 'admin.ips']);
+Route::get('/app', ['uses' => 'AppController@index', 'as' => 'admin.app']);
+Route::post('/app/email', ['uses' => 'AppController@sendMail', 'as' => 'admin.app.send-mail']);
+
+/**
+ * comment
+ */
+Route::post('/comment/{comment}/restore', ['uses' => 'CommentController@restore', 'as' => 'comment.restore']);
+Route::match(['get', 'post'], '/comment/{comment}/verify', ['uses' => 'CommentController@verify', 'as' => 'comment.verify']);
+Route::delete('comment/un-verified', ['uses' => 'CommentController@deleteUnVerifiedComments', 'as' => 'comment.delete-un-verified']);
+
+/***
+ * post
+ */
+
+Route::post('/post/{post}/restore', ['uses' => 'PostController@restore', 'as' => 'post.restore']);
+Route::get('/post/{slug}/preview', ['uses' => 'PostController@preview', 'as' => 'post.preview']);
+Route::post('/post/{post}/publish', ['uses' => 'PostController@publish', 'as' => 'post.publish']);
+Route::get('/post/{post}/download', ['uses' => 'PostController@download', 'as' => 'post.download']);
+Route::post('/post/{post}/config', ['uses' => 'PostController@updateConfig', 'as' => 'post.config']);
+Route::get('/post/download-all', ['uses' => 'PostController@downloadAll', 'as' => 'post.download-all']);
+
+/***
+ * picture
+ */
+//Route::post('/picture/{post}/restore', ['uses' => 'PictureController@restore', 'as' => 'picture.restore']);
+//Route::get('/picture/{slug}/preview', ['uses' => 'PictureController@preview', 'as' => 'picture.preview']);
+//Route::post('/picture/{post}/publish', ['uses' => 'PictureController@publish', 'as' => 'picture.publish']);
+
+
+/**
+ * admin resource
+ */
+Route::resource('post', 'PostController', ['except' => ['show', 'index']]);
+Route::resource('category', 'CategoryController', ['except' => ['index', 'show', 'create']]);
+Route::resource('tag', 'TagController', ['except' => ['index', 'show', 'create']]);
+Route::resource('page', 'PageController', ['except' => ['show', 'index']]);
+Route::resource('picture', 'PictureController', ['except' => ['show', 'index']]);
+
+Route::post('/picture/thumbnail', 'PictureController@thumbnail')->name('picture.thumbnail');
+
+//Route::get('/picture', 'PageController@index')->name('picture.index');
+//Route::get('/picture/{picture}', 'PageController@show')->name('picture.show');
+//Route::get('/picture/create', 'PageController@create')->name('picture.create');
+
+//Route::post('/picture', 'PageController@store')->name('picture.store');
+//Route::get('/picture/{picture}/edit', 'PageController@edit')->name('picture.edit');
+//Route::patch('/picture/{picture}', 'PageController@update')->name('picture.update');
+//Route::delete('/picture/{picture}', 'PageController@destroy')->name('picture.destroy');
+
+/**
+ * IPS
+ */
+Route::delete('/ip/{ip}/toggle', ['uses' => 'IpController@toggleBlock', 'as' => 'ip.block']);
+Route::delete('/ip/{ip}', ['uses' => 'IpController@destroy', 'as' => 'ip.delete']);
+Route::delete('/ip', ['uses' => 'IpController@deleteUnBlocked', 'as' => 'ip.delete-unblocked']);
+
+/**
+ * failed jobs
+ */
+
+Route::delete('/failed-jobs', ['uses' => 'AdminController@flushFailedJobs', 'as' => 'admin.failed-jobs.flush']);

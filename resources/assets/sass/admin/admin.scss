@@ -1,0 +1,149 @@
+@import "../variables";
+@import "../common";
+@import "~uppy/src/scss/uppy.scss";
+
+html, body {
+  font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  background-color: white;
+  height: 100%;
+}
+
+.sidebar .nav-pills .nav-link.active, .show > .nav-pills .nav-link {
+  color: #fff;
+  background-color: rgba(0, 123, 255, 0.5);
+}
+
+.sidebar-wrapper {
+  overflow-y: auto;
+  height: 100%;
+  order: 0;
+}
+
+.content-wrapper {
+  height: 100%;
+  width: 100%;
+  -webkit-box-flex: 1;
+  order: 1;
+  overflow-y: auto;
+}
+
+@media (min-width: 768px) {
+  .main {
+    height: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+  }
+
+  .sidebar-wrapper {
+    -ms-flex: 0 0 28%;
+    flex: 0 0 28%;
+    max-width: 28%;
+  }
+
+  .content-wrapper {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 0 72%;
+    flex: 1 0 72%;
+    max-width: 72%;
+  }
+}
+
+@media (min-width: 992px) {
+  .sidebar-wrapper {
+    -ms-flex: 0 0 20%;
+    flex: 0 0 20%;
+    max-width: 20%;
+  }
+
+  .content-wrapper {
+    -ms-flex: 1 0 80%;
+    flex: 1 0 80%;
+    max-width: 80%;
+  }
+
+}
+
+@media (min-width: 1200px) {
+  .sidebar-wrapper {
+    -ms-flex: 0 0 17%;
+    flex: 0 0 17%;
+    max-width: 17%;
+  }
+
+  .content-wrapper {
+    -ms-flex: 1 0 83%;
+    flex: 1 0 83%;
+    max-width: 83%;
+  }
+}
+
+.divider {
+  margin-bottom: 20px;
+}
+
+.sidebar-header {
+  margin-bottom: 15px;
+  align-content: center;
+}
+
+@media (min-width: 768px) {
+  #sidebar {
+    display: block;
+    height: auto;
+  }
+
+  .sidebar-toggler {
+    display: none;
+  }
+}
+
+.sidebar-toggler {
+  float: right;
+  width: 40px;
+  height: 40px;
+  padding: 10px;
+  font-size: 16px;
+  color: #6f7890;
+  margin-right: 5px;
+  background: transparent;
+  border: 1px solid #e5e5e5;
+  border-radius: 0.25rem;
+}
+
+.sidebar nav a.nav-link {
+  color: #bbb;
+  @extend .transition
+}
+
+.sidebar nav a.nav-link:hover {
+  color: white;
+}
+
+.sidebar nav a.nav-link.active {
+  color: white;
+}
+
+a.admin-brand {
+  text-decoration: none;
+  font-size: 2rem;
+  color: #fff;
+  text-shadow: 5px 5px 5px #3e3e3e;
+  font-family: Pacifico, serif;
+}
+
+a.admin-brand:hover {
+  color: $colorAccent !important;
+  @extend .transition;
+}
+
+.sidebar nav .nav-link[data-toggle="collapse"]:after {
+  font-family: 'FontAwesome';
+  content: "\f102";
+  float: right;
+}
+
+.sidebar nav .nav-link[data-toggle="collapse"].collapsed:after {
+  content: "\f103";
+}

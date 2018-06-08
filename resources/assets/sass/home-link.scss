@@ -1,0 +1,36 @@
+.links {
+  transition: all 0.5s ease-in-out;
+  -webkit-transition: all 0.5s ease-in-out;
+  -moz-transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
+  text-align: left;
+  background: rgba(154, 154, 154, 0.5);
+  padding: 10px;
+  line-height: 24px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  font-size: 18px;
+  color: #eee;
+  a {
+    transition: all 0.5s ease-in-out;
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    text-decoration: none;
+    color: #eee;
+    i {
+      font-size: 18px;
+    }
+  }
+}
+
+.links:hover {
+  background: rgba(228, 228, 228, 0.7);
+  color: #16181b;
+  a {
+    color: #16181b;
+    &:hover {
+      color: #c76c0c;
+    }
+  }
+}

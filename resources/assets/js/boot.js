@@ -1,0 +1,13 @@
+window.$ = window.jQuery = require('jquery');
+const jQueryBridget = require('jquery-bridget');
+window.Popper = require('popper.js').default;
+require('bootstrap');
+window.Clipboard = require('clipboard');
+window.hljs = require('highlight.js');
+window.autosize = require('autosize');
+window.Masonry = require("masonry-layout");
+jQueryBridget('masonry', Masonry, $);
+require('./modal');
+require('./comment');
+require('magnific-popup');
+window.SmoothScroll = require('smooth-scroll');

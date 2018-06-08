@@ -1,0 +1,307 @@
+.post {
+  @extend .transition;
+  background: white;
+  margin-bottom: 1rem;
+  position: relative;
+  overflow: hidden;
+  .post-header {
+    border-bottom: 1px dashed #ebebeb;
+    .post-title {
+      margin: 0;
+      padding: $postItemPaddingUpDown / 2 $postItemPaddingLeftRight $postItemPaddingUpDown / 2;
+      font-size: 1.6em;
+      font-weight: 500;
+      line-height: 1.75em;
+      a {
+        color: #303030;
+        text-decoration: none;
+
+        @extend .transition;
+        &:hover {
+          color: $colorAccent;
+        }
+      }
+    }
+    .post-meta {
+      color: $metaColor;
+      font-size: 0.85em;
+      padding: 0 $postItemPaddingLeftRight $postItemPaddingUpDown/2 $postItemPaddingLeftRight;
+    }
+    img {
+      max-height: 20rem;
+      width: 100%;
+      height: auto;
+      object-fit: cover
+    }
+  }
+
+  .post-description {
+    font-size: 1.25em;
+    line-height: 1.6em;
+    color: #444443;
+    margin: $postItemPaddingUpDown $postItemPaddingLeftRight $postItemPaddingUpDown;
+    p {
+      margin-bottom: 0;
+    }
+    img {
+      max-width: 100%;
+    }
+  }
+
+  .post-permalink {
+    padding: 0 $postItemPaddingLeftRight 0;
+  }
+  .post-footer {
+    border-top: 1px dashed #ebebeb;
+    padding: $postItemPaddingUpDown * 0.5 $postItemPaddingLeftRight;
+    a {
+      color: $secondary;
+    }
+  }
+}
+
+/* post detail*/
+
+.post-detail {
+  position: relative;
+  //@extend .shadow-block;
+  padding: 20px 25px 0;
+  margin-bottom: 20px;
+  background: white;
+
+  .post-detail-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+
+  .post-detail-content {
+    @extend .markdown-content;
+    padding-bottom: 20px;
+    padding-top: 10px;
+    .alert {
+      p:last-child, ul:last-child, ol:last-child, div:last-child {
+        margin-bottom: 0;
+      }
+    }
+    blockquote {
+      display: block;
+      background: #fff;
+      padding: 15px 20px 5px 45px;
+      margin: 1rem 0 1.2rem;
+      position: relative;
+
+      /*Font*/
+      font-family: Georgia, serif;
+      font-size: 16px;
+      line-height: 1.8;
+      color: #666;
+      text-align: justify;
+
+      p {
+        margin-top: 0;
+        margin-bottom: .5rem;
+      }
+
+      border-left: 15px solid $colorAccent;
+      border-right: 2px solid $colorAccent;
+
+      @extend .shadow;
+      &::before {
+        content: "\201C"; /*Unicode for Left Double Quote*/
+
+        /*Font*/
+        font-family: Georgia, serif;
+        font-size: 60px;
+        font-weight: bold;
+        color: #999;
+
+        /*Positioning*/
+        position: absolute;
+        left: 10px;
+        top: 5px;
+        line-height: 1.1;
+      }
+      &::after {
+        /*Reset to make sure*/
+        content: "";
+      }
+
+    }
+    h2 {
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid #f2f3f3;
+    }
+    h1 {
+      margin-top: 2rem * 1.2;
+      margin-bottom: 1rem * 1.2;
+      padding-bottom: 0.5rem * 1.2;
+      border-bottom: 1px solid #f2f3f3;
+    }
+  }
+
+  img {
+    margin-top: .5rem;
+    margin-bottom: .5rem;
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+  figure {
+    display: flex;
+    display: -webkit-box; /* OLD - iOS 6-, Safari 3.1-6 */
+    display: -moz-box; /* OLD - Firefox 19- (buggy but mostly works) */
+    display: -ms-flexbox; /* TWEENER - IE 10 */
+    display: -webkit-flex;
+    -webkit-flex-direction: row;
+    -moz-flex-direction: row;
+    -ms-flex-direction: row;
+    -o-flex-direction: row;
+    flex-direction: row;
+    align-items: left;
+    justify-content: left;
+    -webkit-flex-wrap: wrap;
+    -moz-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    -o-flex-wrap: wrap;
+    flex-wrap: wrap;
+    flex-flow: row wrap;
+    align-content: flex-end;
+    & > img {
+      align-self: center;
+    }
+    figcaption {
+      color: #898c8f;
+      width: 100%;
+      display: block;
+      font-family: Georgia, Times, serif;
+      font-size: .85em;
+    }
+    @media screen and (min-width: map-get($grid-breakpoints, "lg")) {
+      &.half {
+        div {
+          img {
+            height: 282px;
+          }
+          width: calc(50% - .2rem);
+        }
+      }
+      &.third {
+        div {
+          img {
+            height: 200px;
+          }
+          width: calc(100% / 3 - 0.2rem);;
+        }
+      }
+      &.fourth {
+        div {
+          img {
+            height: 150px;
+          }
+          width: calc(25% - 0.2rem);;
+        }
+      }
+      &.fifth {
+        div {
+          img {
+            height: 100px;
+          }
+          width: calc(20% - 0.2rem);;
+        }
+      }
+      &.third, &.half, &.fourth, &.fifth {
+        > div {
+          margin: .1rem;
+          background-color: #0b0b0b;
+          flex-grow: 1;
+          img {
+            transition: all 0.9s ease-in-out;
+            -webkit-transition: all 0.9s ease-in-out;
+            -moz-transition: all 0.9s ease-in-out;
+            -o-transition: all 0.9s ease-in-out;
+            margin-top: 0;
+            margin-bottom: 0;
+            max-width: 100%;
+            min-width: 100%;
+            object-fit: cover;
+            vertical-align: bottom;
+            opacity: .8;
+            &:hover {
+              opacity: 1;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+/* post-info-panel */
+
+.post-info-panel {
+  background: #f8f9fa;
+  border-top: 1px solid #e9ecef;
+  border-bottom: 1px solid #e9ecef;
+  padding: 15px 20px;
+  margin: 0 -25px;
+  color: #495057;
+  font-size: 14px;
+
+  .tag::after {
+    background: #f8f9fa;
+  }
+
+  .info-title {
+    margin-right: 10px;
+  }
+  p {
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+}
+
+/* toc */
+.toc {
+  max-height: 100vh;
+  overflow-y: auto;
+  .card {
+    border-radius: 0;
+    .card-header {
+      background-color: #fff;
+    }
+    .card-body {
+      padding-left: .75rem;
+    }
+  }
+  ol, ul {
+    margin: 0;
+    padding-left: 1rem;
+    text-align: left;
+    list-style-position: inside;
+    font-size: 16px;
+    ol, ul {
+      font-size: 92%;
+    }
+    li {
+      padding-top: .2rem;
+      padding-bottom: .2rem;
+    }
+    a {
+      @extend .transition;
+      color: #212529;
+      text-decoration: none;
+      &:hover {
+        color: $colorAccent;
+        border-bottom: dashed 1px $colorAccent;
+      }
+    }
+  }
+}
+
+.with-toc [class*="col-"] {
+  padding-right: 5px;
+  padding-left: 5px;
+}
