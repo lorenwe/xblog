@@ -30,16 +30,20 @@
     <script type="text/javascript" src="/fileinput/js/locales/zh.js"></script>
     <script>
         $("#file-input").fileinput({
-                uploadUrl: 'upload.php', // you must set a valid URL here else you will get an error
+                uploadUrl: '{!! route('picture.upload', ['_token' => csrf_token(),'picture_id' => $picture->id]) !!}',
                 allowedFileExtensions: ['jpg', 'png', 'gif'],
                 overwriteInitial: false,
                 maxFileSize: 1000,
                 maxFilesNum: 10,
-                slugCallback: function (filename) {
+                /*slugCallback: function (filename) {
                     //选择文件后调用
-                    //console.log(filename);
-                    //return filename.replace('(', '_').replace(']', '_');
-                },
+                    console.log(filename);
+                    return filename.replace('(', '_').replace(']', '_');
+                },*/
+                initialPreview: {!! $initial_preview !!},
+                initialPreviewAsData: true,
+                initialPreviewConfig: {!! $initial_preview_config !!},
+                deleteUrl: "{!! route('picture.pack_delete', ['_token' => csrf_token(),'picture_id' => $picture->id]) !!}",
                 previewZoomButtonIcons: {
                     prev: '<i class="fa fa-caret-left fa-lg"></i>',
                     next: '<i class="fa fa-caret-right fa-lg"></i>',
@@ -67,5 +71,31 @@
                 uploadIcon: '<i class="fa fa-upload"></i>',
                 msgValidationErrorIcon: '<i class="fa fa-exclamation-circle"></i> '
             });
+        // 删除文章缩略图
+        function imageWillBeRemoved(data, remove) {
+            if (window.confirm("Are you sure?")) {
+                $.ajax({
+                    url:'{!! route('picture.thumbnail_del') !!}',
+                    data:{
+                        _token : '{{ csrf_token() }}',
+                        picture_id : '{{ $picture->id }}'
+                    },
+                    type:'post',
+                    cache:false,
+                    dataType:'json',
+                    success:function(data) {
+                        if(data.status == true ){
+                            alert("删除成功");
+                            remove();
+                        }else{
+                            alert("删除失败");
+                        }
+                    },
+                    error:function() {
+                        alert("异常");
+                    }
+                });
+            }
+        }
     </script>
 @endsection

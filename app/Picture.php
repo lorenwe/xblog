@@ -17,7 +17,7 @@ class Picture extends Model
      */
     protected $dates = ['deleted_at', 'published_at'];
 
-    protected $fillable = ['title', 'description', 'thumbnail', 'img_category_id', 'user_id', 'content', 'published_at', 'status', 'json_pack'];
+    protected $fillable = ['title', 'description', 'thumbnail', 'thumbnail_info', 'img_category_id', 'user_id', 'content', 'html_content','published_at', 'status', 'json_pack'];
 
     /**
      * The "booting" method of the model.

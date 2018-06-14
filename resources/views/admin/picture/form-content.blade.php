@@ -30,12 +30,13 @@
         <label for="title" class="form-control-label">封面图片*</label>
         <div class="slim"
              data-service="{{ route('picture.thumbnail', ['_token' => csrf_token(), 'picture_id' => $picture->id]) }}"
-             data-push="true"
+             data-will-remove="imageWillBeRemoved"
+             {{--data-instant-edit="true"
+             data-push="true"--}}
              data-ratio="3:2"
              data-label="点击选择图片"
              data-size="360,240"
              data-max-file-size="2"
-             data-instant-edit="true"
              data-button-confirm-label="确定"
              data-button-confirm-title="确定"
              data-button-cancel-label="取消"

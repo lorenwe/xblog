@@ -3,6 +3,7 @@
 namespace App\Http\Repositories;
 
 use App\Picture;
+use App\PictureImgs;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Lufficc\MarkDownParser;
@@ -76,7 +77,7 @@ class PictureRepository extends Repository
             array_merge(
                 $request->except(['_token']),
                 [
-                    'content' => $html_content,
+                    'html_content' => $html_content,
                     'img_category_id' => 1,
                 ]
             )
@@ -110,8 +111,7 @@ class PictureRepository extends Repository
             array_merge(
                 $request->except(['_token', 'description', '_method']),
                 [
-                    'content' => $html_content,
-                    'description' => $markDownParser->with($request->get('description'))->clean(false)->parse(),
+                    'html_content' => $html_content,
                 ]
             ));
     }
@@ -150,7 +150,13 @@ class PictureRepository extends Repository
 
         if ($upload_result) {
             $url = $FileUploadManager->url($key, $disk_name);
-            if($picture->update(['thumbnail' => $url])){
+            if($picture->update([
+                'thumbnail' => $url,
+                'thumbnail_info' => json_encode([
+                    'key' => $key,
+                    'disk' => $disk_name
+                ])
+            ])){
                 return $url;
             }
         } else {
@@ -158,43 +164,57 @@ class PictureRepository extends Repository
         }
     }
 
-    /**
-     *  将base64数据的图片存入指定位置指定名字下
-     *  $file base64文件
-     *  $folder 文件夹名
-     *  $name 文件名
-     *  $file_prefix 后缀名
-     */
-    public function save_base64_image($file, $folder, $file_prefix, $name = null)
+    public function uploadImgPack(Picture $picture, Request $request)
     {
-        if(empty($name)){
-            $name = getMilliseconds();
-        }
-        $file_path = sprintf("picture/%s/", $folder);
-
-        $file_name = sprintf('%s.%s', $name, $file_prefix);
-
-        $key = $file_path . $file_name;
-
-        if(stripos($file, 'data:image/jpeg;base64,') === 0) {
-            $img = base64_decode(str_replace('data:image/jpeg;base64,', '', $file));
-        } else if(stripos($file, 'data:image/png;base64,') === 0) {
-            $img = base64_decode(str_replace('data:image/png;base64,', '', $file));
-        } else {
-            return false;
-        }
-        $temp_file_path = tempnam(sys_get_temp_dir(), 'ThumbnailImg');
-        $result = file_put_contents($temp_file_path, $img); //返回的是字节数
-        if($result == false) {
-            return false;
-        }
+        $file = $request->file('file_data');
+        //$name = $file->getClientOriginalName() or 'image';
+        $name = $file->hashName();
+        $file_path = sprintf("picture/%s/", 'picture_'.$picture->id);
+        $key = $file_path . $name;
         $FileUploadManager = new FileUploadManager();
-        list($upload_result, $disk_name) = $FileUploadManager->uploadFile($key, $temp_file_path);
-
+        list($upload_result, $disk_name) = $FileUploadManager->uploadFile($key, $file->getRealPath());
         if ($upload_result) {
-            return $FileUploadManager->url($key, $disk_name);
+            // 保存到表中
+            $pictureImgModel = PictureImgs::firstOrNew([
+                'name' => $name,
+                'picture_id' => $picture->id,
+                'key' => $key,
+                'uri' => $FileUploadManager->url($key, $disk_name),
+                'disk' => $disk_name,
+                'size' => $file->getSize(),
+            ]);
+            if ($pictureImgModel->save()) {
+                $result = $pictureImgModel->uri;
+            } else {
+                $result = false;
+            }
         } else {
-            return false;
+            $result = false;
         }
+        $this->clearCache();
+        $this->clearCache('files');
+        if ($result) {
+            $data['status'] = true;
+            $data['key'] = $pictureImgModel->id;
+            $data['url'] = $result;
+            $data['size'] = $pictureImgModel->size;
+            $data['filename'] = $name;
+        } else {
+            $data['status'] = false;
+            $data['error'] = 'upload failed';
+        }
+        return $data;
+    }
+
+    public function delete($key, $disk)
+    {
+        $FileUploadManager = new FileUploadManager();
+        $result = $FileUploadManager->deleteFile($key, $disk);
+        if ($result) {
+            $this->clearCache();
+            $this->clearCache('files');
+            PictureImgs::where('key', $key)->delete();
+        }
+        return $result;
     }
 }

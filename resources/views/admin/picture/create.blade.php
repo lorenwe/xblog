@@ -19,18 +19,17 @@
     <script type="text/javascript" src="/fileinput/js/fileinput.js"></script>
     <script type="text/javascript" src="/fileinput/js/locales/zh.js"></script>
     <script>
-        $(function(){
-            $("#file-input").fileinput({
+        $("#file-input").fileinput({
                     uploadUrl: 'upload.php', // you must set a valid URL here else you will get an error
                     allowedFileExtensions: ['jpg', 'png', 'gif'],
                     overwriteInitial: false,
                     maxFileSize: 1000,
                     maxFilesNum: 10,
-                    slugCallback: function (filename) {
+                    /*slugCallback: function (filename) {
                         //选择文件后调用
                         //console.log(filename);
                         //return filename.replace('(', '_').replace(']', '_');
-                    },
+                    },*/
                     previewZoomButtonIcons: {
                         prev: '<i class="fa fa-caret-left fa-lg"></i>',
                         next: '<i class="fa fa-caret-right fa-lg"></i>',
@@ -58,6 +57,5 @@
                     uploadIcon: '<i class="fa fa-upload"></i>',
                     msgValidationErrorIcon: '<i class="fa fa-exclamation-circle"></i> '
                 });
-        });
     </script>
 @endsection

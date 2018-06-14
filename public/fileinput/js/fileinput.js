@@ -3773,7 +3773,10 @@
                     $status.html('');
                     return;
                 }
-                var node = ctr + i, previewId = previewInitId + "-" + node, file = files[i], fSizeKB, j, msg,
+                var node = ctr + i,
+                    previewId = previewInitId + "-" + node,
+                    file = files[i],
+                    fSizeKB, j, msg,
                     fnText = settings.text, fnImage = settings.image, fnHtml = settings.html, typ, chk, typ1, typ2,
                     caption = file && file.name ? self.slug(file.name) : '', fileSize = (file && file.size || 0) / 1000,
                     fileExtExpr = '', previewData = file ? $h.objUrl.createObjectURL(file) : null, fileCount = 0, strTypes = '',

@@ -20,7 +20,9 @@ class CreatePictureTable extends Migration
             $table->string('title')->nullable(false);
             $table->string('description')->nullable(false);
             $table->string('thumbnail')->nullable();
+            $table->string('thumbnail_info')->nullable();
             $table->longText('content')->nullable();
+            $table->longText('html_content')->nullable();
             $table->longText('json_pack')->nullable();
             $table->tinyInteger('status')->default(0);
             $table->integer('view_count')->unsigned()->default(0);

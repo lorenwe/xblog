@@ -72,9 +72,12 @@ Route::resource('post', 'PostController', ['except' => ['show', 'index']]);
 Route::resource('category', 'CategoryController', ['except' => ['index', 'show', 'create']]);
 Route::resource('tag', 'TagController', ['except' => ['index', 'show', 'create']]);
 Route::resource('page', 'PageController', ['except' => ['show', 'index']]);
-Route::resource('picture', 'PictureController', ['except' => ['show', 'index']]);
+Route::resource('picture', 'PictureController', ['except' => ['show', 'index', 'create']]);
 
 Route::post('/picture/thumbnail', 'PictureController@thumbnail')->name('picture.thumbnail');
+Route::post('/picture/thumbnail_del', 'PictureController@thumbnail_del')->name('picture.thumbnail_del');
+Route::post('/picture/upload', 'PictureController@upload')->name('picture.upload');
+Route::post('/picture/pack_delete', 'PictureController@pack_delete')->name('picture.pack_delete');
 
 //Route::get('/picture', 'PageController@index')->name('picture.index');
 //Route::get('/picture/{picture}', 'PageController@show')->name('picture.show');
